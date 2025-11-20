@@ -49,8 +49,6 @@ console.log("🔵 Creating SockJS socket...");
 
     
  });
-
- 
   stompClient.onConnect=()=>{
 
     const myId=Math.random().toString(36).slice(2);
