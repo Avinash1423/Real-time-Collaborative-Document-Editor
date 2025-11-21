@@ -1,6 +1,4 @@
 package com.docx.Back;
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -27,7 +25,7 @@ public class WebSocketController {
 
         simpMessagingTemplate.convertAndSend("/queue/"+docxId,deltaJson);
 
-        CompletableFuture.runAsync(()->redisClass.updateRedis(docxId,deltaJson));
+            redisClass.updateRedis(docxId,deltaJson);
 
     }
 
