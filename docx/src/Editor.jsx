@@ -10,7 +10,7 @@ const Editor = () => {
 const initialized=useRef(false);
 const quillref=useRef(null);
 const {id:docxId}=useParams();
-console.log(docxId)//not herrting ot here
+
   
  const call=useCallback(
   (el)=>{
@@ -27,6 +27,17 @@ console.log(docxId)//not herrting ot here
   }
   ,[]
 )
+
+//LOAD
+useEffect(()=>{
+  const fetchData=async()=>{
+const res= await fetch(`http://localhost:5000/expose/${docxId}`)
+const data= await res.json();
+console.log("LOAD"+data.docx); //load
+quillref.current.updateContents(data.docx);
+  }
+  fetchData();
+},[])
 
 
  useEffect(()=>{
@@ -51,7 +62,8 @@ console.log("🔵 Creating SockJS socket...");
  });
   stompClient.onConnect=()=>{
 
-    const myId=Math.random().toString(36).slice(2);
+
+  const myId=Math.random().toString(36).slice(2);
 
    //SEND
    quillref.current.on("text-change",(delta,oldDelta,source)=>{
@@ -59,6 +71,15 @@ console.log("🔵 Creating SockJS socket...");
    stompClient.publish({destination:"/app/server",body: JSON.stringify({sender: myId , delta: delta}),headers:{docxId:docxId},});
 
   });
+
+
+   // UPDATE REF
+   quillref.current.on("text-change",(delta,oldDelta,source)=>{
+    if (source !== "user") return;
+   stompClient.publish({destination:"/app/redis",body: JSON.stringify({docx: quillref.current.getContents()}),headers:{docxId:docxId},});
+
+  });
+
 
    //RECEIVE
     stompClient.subscribe(`/queue/${docxId}`,(deltaString)=>{

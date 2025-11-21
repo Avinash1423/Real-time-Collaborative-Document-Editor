@@ -1,5 +1,6 @@
 package com.docx.Back;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -14,6 +15,8 @@ public interface DocxObjectRepository extends  JpaRepository<docxObject,String> 
     void UpdateDelta(@Param("delta")String delta,@Param("docxId")String docxId);
 
 
+    @Query("SELECT d.delta FROM docxObject d WHERE d.docxId= :docxId")
+    JsonNode findDeltaById(@Param("docxId") String docxId );
 
 }
 

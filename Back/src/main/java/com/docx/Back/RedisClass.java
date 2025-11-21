@@ -18,7 +18,7 @@ public class RedisClass {
 
         redisTemplate.opsForValue().set(docxId,deltaJson, Duration.ofMinutes(15));
 
-         System.out.println( "⭕"+ redisTemplate.opsForValue().get(docxId));
+         System.out.println( "⭕updateRedis"+ redisTemplate.opsForValue().get(docxId));
 
     }
 

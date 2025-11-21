@@ -25,7 +25,15 @@ public class WebSocketController {
 
         simpMessagingTemplate.convertAndSend("/queue/"+docxId,deltaJson);
 
-            redisClass.updateRedis(docxId,deltaJson);
+
+
+    }
+
+    @MessageMapping("/redis")
+    public void updateRedis(String docx ,@Header("docxId") String docxId){
+
+        System.out.printf("⭕updateRedis"+docx);
+        redisClass.updateRedis(docxId,docx);
 
     }
 
