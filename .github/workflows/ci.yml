@@ -1,4 +1,4 @@
-name: fullStackAppWorkflow
+name: DocxWorkflow
 
 on:
   push:
@@ -12,7 +12,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.x,22.x]
+        node-version: [18.x, 20.x, 22.x]
 
     defaults:
       run:
@@ -26,7 +26,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
-          cache-dependency-path: ./docxProject/docx/package-lock.json
+          cache-dependency-path: ./docxProject/docx
 
       - run: npm ci
       - run: npm run build --if-present
