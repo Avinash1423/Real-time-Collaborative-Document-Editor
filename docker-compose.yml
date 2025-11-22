@@ -1,0 +1,28 @@
+services:
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+
+  backend:
+    build: ./Back
+    container_name: docx-backend
+    ports:
+      - "5000:5000"
+    environment:
+      - SPRING_DATA_REDIS_HOST=redis
+      - SPRING_DATA_REDIS_PORT=6379
+      - SPRING_DATASOURCE_URL=${NeonDbKey}
+      - SPRING_DATASOURCE_USERNAME=${NeonDbUserName}
+      - SPRING_DATASOURCE_PASSWORD=${NeonDbPassword}
+    depends_on:
+      - redis
+
+  frontend:
+    build: ./docx
+    container_name: docx-frontend
+    ports:
+      - "5174:80"
+    depends_on:
+      - backend
