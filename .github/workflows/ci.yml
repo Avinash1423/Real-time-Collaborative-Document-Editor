@@ -26,7 +26,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
-          cache-dependency-path: ./docxProject/docx 
+          cache-dependency-path: ./docxProject/docx/package-lock.json
 
       - run: npm ci
       - run: npm run build --if-present
@@ -51,26 +51,7 @@ jobs:
       - name: Build with Maven
         run:  mvn -B package --file pom.xml
   
-  
-  build:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        
-      - name: Log into registry ${{ env.IMAGE_REGISTRY }}
-        uses: docker/login-action@343f7c4344506bcbf9b4de18042ae17996df046d # v3.0.0
-        with:
-          registry: docker.io
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: publish
-        uses: 0x4r45h/docker-compose-ci@v0.1.0
-  
+    
   deploy:
     needs: [build-frontend, build-backend, build]
     runs-on: ubuntu-latest
