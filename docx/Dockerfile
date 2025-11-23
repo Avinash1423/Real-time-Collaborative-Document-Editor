@@ -1,5 +1,5 @@
 #build
-FROM node:18 AS build
+FROM node:20 AS build
 COPY package-lock.json package.json ./
 RUN npm install
 COPY . .
