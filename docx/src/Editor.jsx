@@ -54,7 +54,7 @@ console.log("🔵 Creating SockJS socket...");
  // stompClient=Stomp.over(socket); deprecated
 
    const stompClient=new Client({
-   brokerURL:"/ws/",
+   brokerURL:"/ws",
    // webSocketFactory:()=>socket,
    debug:(str)=>{console.log("STOMP DEBUG:", str)},
 
