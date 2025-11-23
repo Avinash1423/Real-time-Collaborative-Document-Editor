@@ -31,7 +31,7 @@ const {id:docxId}=useParams();
 //LOAD
 useEffect(()=>{
   const fetchData=async()=>{
-const res= await fetch(`http://localhost:5000/expose/${docxId}`)
+const res= await fetch(`/expose/${docxId}`)
 const data= await res.json();
 console.log("LOAD"+data.docx); //load
 quillref.current.updateContents(data.docx);
@@ -54,7 +54,7 @@ console.log("🔵 Creating SockJS socket...");
  // stompClient=Stomp.over(socket); deprecated
 
    const stompClient=new Client({
-   brokerURL:"http://localhost:5000/ws",
+   brokerURL:"/ws",
    // webSocketFactory:()=>socket,
    debug:(str)=>{console.log("STOMP DEBUG:", str)},
 
